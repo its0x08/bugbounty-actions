@@ -1,0 +1,57 @@
+name: bugbounty-actions
+
+on: push
+
+jobs:
+  subdomains-shuffledns:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set up Golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.18.4'
+      - run: go version
+
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Massdns
+        uses: actions/checkout@v3
+        with:
+          repository: 'blechschmidt/massdns'
+          path: massdns
+      
+      - name: Get lists
+        uses: actions/checkout@v3
+        with:
+          repository: 'danielmiessler/SecLists'
+          path: SecLists
+
+      - name: Install massdns and shuffledns
+        run: |
+          cd massdns
+          make -j $(nproc)
+          sudo make install
+          go install -v github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest
+
+      - name: Check DNS for the provided domain
+        run: shuffledns -r massdns/lists/resolvers.txt -w SecLists/Discovery/DNS/combined_subdomains.txt -o outputs/shuffledns.txt -d google.com
+
+      - name: Set current date
+        run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Commit changes
+        run: |
+          git config --local user.email ${{ secrets.EMAIL }}
+          git config --local user.name "its0x08"
+          git add outputs/*
+          git commit -m "${NOW} update"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main

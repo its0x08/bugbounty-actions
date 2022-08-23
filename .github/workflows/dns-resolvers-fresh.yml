@@ -1,0 +1,50 @@
+name: bugbounty-actions
+
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  resfresh-resolvers-list:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout DNS Validator
+        uses: actions/checkout@v3
+        with:
+          repository: 'vortexau/dnsvalidator'
+          path: dnsvalidator
+
+      - name: Install DNS Validator
+        run: |
+          cd dnsvalidator
+          python3 setup.py install
+
+      - name: Generate new resolvers
+        run: dnsvalidator -tL https://public-dns.info/nameservers.txt -threads 20 --silent outputs/resolvers.txt
+
+      - name: Set current date
+        run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Commit changes
+        run: |
+          git config --local user.email ${{ secrets.EMAIL }}
+          git config --local user.name "its0x08"
+          git add resolvers.txt
+          git commit -m "${NOW} update"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
