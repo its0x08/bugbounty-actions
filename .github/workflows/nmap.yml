@@ -25,7 +25,7 @@ jobs:
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
-          git add outputs/*
+          git add outputs/nmap-output*
           git commit -m "${NOW} update"
 
       - name: Push changes
