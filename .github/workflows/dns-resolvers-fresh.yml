@@ -40,7 +40,7 @@ jobs:
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
-          git add resolvers.txt
+          git add outputs/resolvers.txt
           git commit -m "${NOW} update"
 
       - name: Push changes
