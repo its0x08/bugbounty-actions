@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: checkout
+      - name: Checkout local repo
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
