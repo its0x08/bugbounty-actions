@@ -7,4 +7,4 @@
 - [subdomains-gobuster.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/subdomains-gobuster.yml) this action uses gobuster to bugbounty-actions subdomains.
 - [subdomains-shuffledns.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/subdomains-shuffledns.yml) this action uses shuffledns to bugbounty-actions subdomains.
 - [portscan-nmap.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/portscan-nmap.yml) this action uses nmap to scan ports.
-- [portscan-masscan.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/portscan-shuffledns.yml) this action uses massdns scan ports.
+- [portscan-masscan.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/portscan-massdns.yml) this action uses massdns scan ports.
