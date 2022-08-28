@@ -33,7 +33,7 @@ jobs:
         run: wget https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/al.cidr
 
       - name: Scan host
-        run: sudo masscan -p 80 -iL al.cidr -oL /tmp/masscan.txt --rate=2048
+        run: sudo masscan -p 80 -iL al.cidr -oL /tmp/masscan.txt --rate=10240
 
       - name: Filter IPs
         run: grep open /tmp/masscan.txt|cut -d' ' -f 4 > outputs/masscan.txt
