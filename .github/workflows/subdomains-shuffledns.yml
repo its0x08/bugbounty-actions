@@ -1,4 +1,4 @@
-name: bugbounty-actions
+name: bb-actions-subdomains
 
 on: push
 
