@@ -22,7 +22,7 @@ jobs:
         run: |
           cd masscan
           make -j $(nproc)
-          make install
+          sudo make install
           make clean
 
 
