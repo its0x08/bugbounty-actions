@@ -1,6 +1,9 @@
 name: bb-actions-ports
 
-on: push
+on:
+  push:
+    paths:
+    - 'portscan-masscan.yml'
 
 jobs:
   ports-masscan:
@@ -13,7 +16,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
-        run: sudo apt -y install git make gcc
+        run: sudo apt -y install git make gcc libpcap-dev
 
       - name: Clone Masscan repo
         run: git clone https://github.com/robertdavidgraham/masscan
