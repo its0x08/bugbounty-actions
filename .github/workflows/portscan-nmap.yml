@@ -1,6 +1,9 @@
 name: bb-actions-ports
 
-on: push
+on:
+  push:
+    paths:
+    - 'portscan-nmap.yml'
 
 jobs:
   ports-nmap:

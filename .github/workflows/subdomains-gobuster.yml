@@ -1,6 +1,9 @@
 name: bb-actions-subdomains
 
-on: push
+on:
+  push:
+    paths:
+    - 'subdomains-gobuster.yml'
 
 jobs:
   subdomains-gobuster:
