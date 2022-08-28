@@ -25,7 +25,7 @@ jobs:
         run: go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
       - name: Run httpx against targets
-        run: httpx -l outputs/masscan.txt -o outputs/httpx.txt -path ".git/config" -ms "[core]" -threads 500 -nc -random-agent -p 80
+        run: httpx -l outputs/masscan.txt -o outputs/httpx.txt -path ".git/config" -ms "[core]" -threads 500 -random-agent 
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
