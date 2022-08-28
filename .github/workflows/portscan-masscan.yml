@@ -27,7 +27,10 @@ jobs:
 
 
       - name: Scan host
-        run: sudo masscan -p 80 217.21.144.0/20 -oL outputs/masscan.txt
+        run: sudo masscan -p 80 217.21.144.0/20 -oL /tmp/masscan.txt
+
+      - name: Filter hosts
+        run: grep open /tmp/masscan.txt|cut -d' ' -f 4 > outputs/masscan.txt
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
