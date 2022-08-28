@@ -45,6 +45,11 @@ jobs:
           git add outputs/masscan.txt
           git commit -m "${NOW} update"
 
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
