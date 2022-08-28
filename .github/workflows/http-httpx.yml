@@ -20,21 +20,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Get lists
-        uses: actions/checkout@v3
-        with:
-          repository: 'danielmiessler/SecLists'
-          path: SecLists
 
-      - name: Install gobuster
-        run: go install github.com/OJ/gobuster/v3@latest
+      - name: Install httpx
+        run: go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
       - name: Run httpx against targets
         run: httpx -l outputs/masscan.txt -o outputs/httpx.txt -path ".git/config" -ms "[core]" -threads 500 -nc -random-agent -p http:80,https:443
-
-      - name: Filter results
-        run: cut -d' ' -f 2 /tmp/subdomains.txt > outputs/subdomains.txt
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
@@ -44,7 +35,7 @@ jobs:
           git pull
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
-          git add outputs/subdomains.txt
+          git add outputs/httpx.txt
           git commit -m "${NOW} update"
     
       - name: Push changes
