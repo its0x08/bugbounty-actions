@@ -3,7 +3,7 @@ name: bb-actions-ports
 on:
   push:
     paths:
-    - 'portscan-nmap.yml'
+    - '.github/workflows/portscan-nmap.yml'
 
 jobs:
   ports-nmap:
@@ -26,6 +26,7 @@ jobs:
 
       - name: Commit changes
         run: |
+          git pull
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
           git add outputs/nmap-output*

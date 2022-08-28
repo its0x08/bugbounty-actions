@@ -3,7 +3,7 @@ name: bb-actions-subdomains
 on:
   push:
     paths:
-    - 'subdomains-shuffledns.yml'
+    - '.github/workflows/subdomains-shuffledns.yml'
 
 jobs:
   subdomains-shuffledns:
@@ -48,6 +48,7 @@ jobs:
 
       - name: Commit changes
         run: |
+          git pull
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
           git add outputs/shuffledns.txt
