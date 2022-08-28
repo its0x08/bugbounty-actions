@@ -1,0 +1,54 @@
+name: bb-actions-http
+
+on:
+  push:
+    paths:
+    - '.github/workflows/http-httpx.yml'
+
+jobs:
+  http-httpx:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set up Golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.18.4'
+      - run: go version
+    
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Get lists
+        uses: actions/checkout@v3
+        with:
+          repository: 'danielmiessler/SecLists'
+          path: SecLists
+
+      - name: Install gobuster
+        run: go install github.com/OJ/gobuster/v3@latest
+
+      - name: Run httpx against targets
+        run: httpx -l outputs/masscan.txt -o outputs/httpx.txt -path ".git/config" -ms "[core]" -threads 500 -nc -random-agent -p http:80,https:443
+
+      - name: Filter results
+        run: cut -d' ' -f 2 /tmp/subdomains.txt > outputs/subdomains.txt
+
+      - name: Set current date
+        run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Commit changes
+        run: |
+          git pull
+          git config --local user.email ${{ secrets.EMAIL }}
+          git config --local user.name "its0x08"
+          git add outputs/subdomains.txt
+          git commit -m "${NOW} update"
+    
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
