@@ -15,7 +15,7 @@ jobs:
         with:
           go-version: '1.18.4'
       - run: go version
-    
+
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
@@ -31,7 +31,7 @@ jobs:
           path: nuclei-templates
 
       - name: Run nuclei against targets
-        run: nuclei -l outputs/httpx.txt -t nuclei-templates -o outputs/nuclei.txt -silent -headless -stats
+        run: nuclei -l outputs/httpx.txt -t nuclei-templates -o outputs/nuclei.txt -silent -headless -rl 1000
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
@@ -43,7 +43,7 @@ jobs:
           git config --local user.name "its0x08"
           git add outputs/nuclei.txt.txt
           git commit -m "${NOW} update"
-    
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
