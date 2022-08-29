@@ -5,6 +5,10 @@ on:
     paths:
     - '.github/workflows/http-httpx.yml'
 
+env:
+  TARGET: 0
+  OUTPUT_FILE: outputs/git_config.txt
+
 jobs:
   http-httpx:
     runs-on: ubuntu-latest
@@ -27,7 +31,7 @@ jobs:
       - name: Run httpx against targets
         run: |
           cat misc/* > misc/domainnames
-          httpx -l misc/domainnames -o outputs/git_config.txt -threads 1000 -random-agent -path "/.git/config" -ms "[core]"
+          httpx -l misc/domainnames -o ${{ OUTPUT_FILE }} -threads 1000 -random-agent -path "/.git/config" -ms "[core]"
 
       #- name: Filter output
       #  run: cut -d' ' -f 1 outputs/httpx.txt > outputs/httpx-filtered.txt
@@ -40,7 +44,7 @@ jobs:
           git pull
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
-          git add outputs/httpx.txt
+          git add ${{ OUTPUT_FILE }}
           git commit -m "${NOW} update"
     
       - name: Push changes
