@@ -6,7 +6,7 @@ on:
     - '.github/workflows/vulnscan-nuclei.yml'
 
 jobs:
-  http-httpx:
+  vulnscan-nuclei:
     runs-on: ubuntu-latest
     steps:
 
