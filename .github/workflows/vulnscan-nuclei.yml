@@ -31,7 +31,7 @@ jobs:
           path: nuclei-templates
 
       - name: Run nuclei against targets
-        run: nuclei -l outputs/httpx.txt -t nuclei-templates -o outputs/nuclei.txt -silent -nc -headless -stats -update
+        run: nuclei -l outputs/httpx.txt -t nuclei-templates -o outputs/nuclei.txt -silent -headless -stats
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
