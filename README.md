@@ -7,7 +7,10 @@
 
 ## Portscan actions
 - [portscan-nmap.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/portscan-nmap.yml) this action uses nmap to scan ports.
-- [portscan-masscan.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/portscan-masscan.yml) this action uses massdns scan ports.
+- [portscan-masscan.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/portscan-masscan.yml) this action uses massdns to scan ports.
+
+## Vulnscan actions
+- [vulnscan-nuclei.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/vulnscan-nuclei.yml) this action uses nuclei to scan for vulnerabilities.
 
 ## Misc actions
 - [dns-resolvers-refresh.yml](https://github.com/its0x08/bugbounty-actions/blob/main/.github/workflows/dns-resolvers-fresh.yml) this action is used to check live dns resolvers every 24 hours.
