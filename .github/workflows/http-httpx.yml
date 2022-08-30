@@ -6,8 +6,9 @@ on:
     - '.github/workflows/http-httpx.yml'
 
 env:
-  TARGET: misc/domainnames
-  OUTPUT_FILE: outputs/git_config.txt
+  TARGET: outputs/masscan.txt
+  OUTPUT_TEMP: outputs/httpx.txt
+  OUTPUT_FILE: outputs/httpx-filtered.txt
 
 jobs:
   http-httpx:
@@ -29,12 +30,10 @@ jobs:
         run: go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
       - name: Run httpx against targets
-        run: |
-          cat misc/* > $TARGET
-          httpx -l $TARGET -o $OUTPUT_FILE -threads 1000 -random-agent -path "/.git/config" -ms "[core]"
+        run: httpx -l $TARGET -o $OUTPUT_TEMP -threads 1000 -random-agent
 
-      #- name: Filter output
-      #  run: cut -d' ' -f 1 outputs/httpx.txt > outputs/httpx-filtered.txt
+      - name: Filter output
+        run: cut -d' ' -f 1 OUTPUT_TEMP > $OUTPUT_FILE
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV

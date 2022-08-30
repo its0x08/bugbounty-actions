@@ -5,6 +5,10 @@ on:
     paths:
     - '.github/workflows/vulnscan-nuclei.yml'
 
+env:
+  TARGET: outputs/httpx.txt
+  OUTPUT_FILE: outputs/nuclei.txt
+
 jobs:
   vulnscan-nuclei:
     runs-on: ubuntu-latest
@@ -31,7 +35,7 @@ jobs:
           path: nuclei-templates
 
       - name: Run nuclei against targets
-        run: nuclei -l outputs/httpx.txt -t nuclei-templates -o outputs/nuclei.txt -silent -headless -rl 1000
+        run: nuclei -l $TARGET -t nuclei-templates -o $OUTPUT_FILE -silent -headless -rl 1000
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
@@ -41,7 +45,7 @@ jobs:
           git pull
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
-          git add outputs/nuclei.txt.txt
+          git add $OUTPUT_FILE
           git commit -m "${NOW} update"
 
       - name: Push changes
