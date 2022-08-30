@@ -4,6 +4,10 @@ on:
   schedule:
     - cron:  '0 0 * * *'
 
+env:
+  TARGET: https://public-dns.info/nameservers-all.txt
+  OUTPUT_FILE: outputs/resolvers.txt
+
 jobs:
   resfresh-resolvers-list:
     runs-on: ubuntu-latest
@@ -19,28 +23,21 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout repo DNS Validator
-        uses: actions/checkout@v3
-        with:
-          repository: 'vortexau/dnsvalidator'
-          path: dnsvalidator
-
       - name: Install DNS Validator
-        run: |
-          cd dnsvalidator
-          python3 setup.py install
+        run: pip install git+https://github.com/vortexau/dnsvalidator.git
 
       - name: Generate new resolvers
-        run: dnsvalidator -tL https://public-dns.info/nameservers-all.txt -threads 200 --silent -o outputs/resolvers.txt
+        run: dnsvalidator -tL $TARGET -threads 200 --silent -o $OUTPUT_FILE
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Commit changes
         run: |
+          git pull
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "its0x08"
-          git add outputs/resolvers.txt
+          git add $OUTPUT_FILE
           git commit -m "${NOW} update"
 
       - name: Push changes
