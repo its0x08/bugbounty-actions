@@ -41,7 +41,7 @@ jobs:
           go install -v github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest
 
       - name: Check DNS for the provided domain
-        run: shuffledns -r massdns/lists/resolvers.txt -w SecLists/Discovery/DNS/combined_subdomains.txt -o outputs/shuffledns.txt -d google.com
+        run: shuffledns -r massdns/lists/resolvers.txt -w SecLists/Discovery/DNS/dns-Jhaddix.txt -o outputs/shuffledns.txt -d flare.al
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
