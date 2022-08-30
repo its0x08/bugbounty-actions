@@ -30,7 +30,7 @@ jobs:
         run: go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
       - name: Run httpx against targets
-        run: httpx -l $TARGET -o $OUTPUT_TEMP -threads 1000 -random-agent
+        run: httpx -l $TARGET -o $OUTPUT_TEMP -threads 1000 -random-agent -title -td -nf
 
       - name: Filter output
         run: cut -d' ' -f 1 OUTPUT_TEMP > $OUTPUT_FILE
