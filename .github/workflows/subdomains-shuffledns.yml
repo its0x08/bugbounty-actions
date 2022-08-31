@@ -5,6 +5,12 @@ on:
     paths:
     - '.github/workflows/subdomains-shuffledns.yml'
 
+env:
+  TARGET: google.com
+  OUTPUT_FILE: outputs/shuffledns.txt
+  WORDLIST: SecLists/Discovery/DNS/dns-Jhaddix.txt
+  RESOLVERS: massdns/lists/resolvers.txt
+
 jobs:
   subdomains-shuffledns:
     runs-on: ubuntu-latest
@@ -41,7 +47,7 @@ jobs:
           go install -v github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest
 
       - name: Check DNS for the provided domain
-        run: shuffledns -r massdns/lists/resolvers.txt -w SecLists/Discovery/DNS/dns-Jhaddix.txt -o outputs/shuffledns.txt -d flare.al
+        run: shuffledns -r $RESOLVERS -w $WORDLIST -o $OUTPUT_FILE -d $TARGET
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
