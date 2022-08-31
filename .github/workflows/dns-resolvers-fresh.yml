@@ -27,7 +27,7 @@ jobs:
         run: pip install git+https://github.com/vortexau/dnsvalidator.git
 
       - name: Generate new resolvers
-        run: dnsvalidator -tL $TARGET -threads 200 --silent -o $OUTPUT_FILE
+        run: dnsvalidator -tL $TARGET -threads 200 --silent > $OUTPUT_FILE
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
