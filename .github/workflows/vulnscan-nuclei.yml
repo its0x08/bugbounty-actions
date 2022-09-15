@@ -6,7 +6,8 @@ on:
     - '.github/workflows/vulnscan-nuclei.yml'
 
 env:
-  TARGET: outputs/httpx-filtered.txt
+  TARGET: outputs/masscan.txt
+#  TARGET: outputs/httpx-filtered.txt
   OUTPUT_FILE: outputs/nuclei.txt
 
 jobs:
@@ -35,7 +36,8 @@ jobs:
           path: nuclei-templates
 
       - name: Run nuclei against targets
-        run: nuclei -l $TARGET -t nuclei-templates -o $OUTPUT_FILE -silent -rl 1000 -s high
+#        run: nuclei -l $TARGET -t nuclei-templates -o $OUTPUT_FILE -silent -rl 1000 -s high
+        run: nuclei -l $TARGET -tu https://raw.githubusercontent.com/its0x08/nuclei-templates/patch-1/network/zte-backdoor.yaml -o $OUTPUT_FILE -silent -rl 1000
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
