@@ -39,7 +39,7 @@ jobs:
 #        run: nuclei -l $TARGET -t nuclei-templates -o $OUTPUT_FILE -silent -rl 1000 -s high
         run: |
           wget https://raw.githubusercontent.com/its0x08/nuclei-templates/patch-1/network/zte-backdoor.yaml
-          nuclei -l $TARGET -tu zte-backdoor.yaml -o $OUTPUT_FILE -silent -rl 1000
+          nuclei -l $TARGET -t zte-backdoor.yaml -o $OUTPUT_FILE -silent -rl 1000
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
