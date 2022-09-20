@@ -37,7 +37,7 @@ jobs:
 
       - name: Run nuclei against targets
 #        run: nuclei -l $TARGET -t nuclei-templates -o $OUTPUT_FILE -silent -rl 1000 -s high
-        run: nuclei -l $TARGET -t nuclei-templates/cves/2014/CVE-2014-2321.yaml -o $OUTPUT_FILE -silent -rl 1000
+        run: nuclei -rl 300 -spm -t /scripts/nuclei-templates/technologies/microsoft/microsoft-sharepoint-detect.yaml -l $TARGET
 
       - name: Set current date
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
